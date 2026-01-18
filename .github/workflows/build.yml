@@ -1,11 +1,10 @@
-name: Build AntiMiner (Nuitka Direct)
+name: Build and Release AntiMiner
 
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
-  workflow_dispatch:
+    tags:
+      - 'v*' # Trigger on version tags, e.g., v1.0.0
+  workflow_dispatch: # Allow manual trigger
 
 jobs:
   build:
@@ -14,11 +13,11 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
         include:
           - os: windows-latest
-            executable_name: antiminer.exe
+            executable_name: antiminer-windows.exe
           - os: ubuntu-latest
-            executable_name: antiminer.bin
+            executable_name: antiminer-linux.bin
           - os: macos-latest
-            executable_name: antiminer.app
+            executable_name: antiminer-macos.app
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -28,7 +27,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
           cache: 'pip'
 
       - name: Install dependencies
@@ -45,9 +44,6 @@ jobs:
       - name: Build with Nuitka
         shell: bash
         run: |
-          # Get Flet package path to include its assets
-          FLET_PATH=$(python -c "import flet; import os; print(os.path.dirname(flet.__file__))")
-          
           python -m nuitka \
             --standalone \
             --onefile \
@@ -61,5 +57,31 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: antiminer-${{ matrix.os }}
+          name: ${{ matrix.executable_name }}
           path: ${{ matrix.executable_name }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/antiminer-windows.exe/antiminer-windows.exe
+            artifacts/antiminer-linux.bin/antiminer-linux.bin
+            artifacts/antiminer-macos.app/antiminer-macos.app
+          name: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
