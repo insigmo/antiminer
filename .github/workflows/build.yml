@@ -52,6 +52,7 @@ jobs:
             --standalone \
             --onefile \
             --follow-imports \
+            --assume-yes-for-downloads \
             --include-data-file=antiminer/threat_db.json=antiminer/threat_db.json \
             --include-package-data=flet \
             --output-filename=${{ matrix.executable_name }} \
