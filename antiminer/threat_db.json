@@ -1,0 +1,166 @@
+{
+  "THREAT_DB": {
+    "miner": {
+      "patterns": ["xmrig", "cryptonight", "xmr-eu", "monero", "nanopool", "c3pool"],
+      "extensions": [".exe", ".js", ".py", ".ps1", ".vbs", ".scr", ".bat"],
+      "threat_level": 3,
+      "name": "Криптомайнер",
+      "mechanism": "Использует ресурсы вашего ПК для майнинга криптовалюты без вашего ведома",
+      "mitigation": "Нейтрализовать функционал майнинга"
+    },
+    "stealer": {
+      "patterns": [
+        "keylogger", "stealc", "cookies\\.sqlite", "discord_token",
+        "Login Data", "Web Data", "Cookies", "\\.netstealer",
+        "Grabber", "TokenLogger", "DiscordInject", "Clipboard"
+      ],
+      "extensions": [".dll", ".bin", ".dat", ".cfg", ".exe", ".log", ".tmp"],
+      "threat_level": 8,
+      "name": "Информационный стилер",
+      "mechanism": "Крадет пароли, куки, данные кредитных карт и другую конфиденциальную информацию",
+      "mitigation": "Обезвредить функции кражи данных"
+    },
+    "rat": {
+      "patterns": [
+        "C2_Server", "RemoteShell", "HiddenInstall", "BackConnect",
+        "Keylogger", "ScreenSpy", "ReverseShell", "PortListener",
+        "PayloadInject", "Persistance", "AutoUpdate", "VictimID",
+        "StartupPersistence", "RemoteDesktop", "WebcamCapture"
+      ],
+      "extensions": [".exe", ".dll", ".jar", ".docm", ".xlsm", ".pptm"],
+      "threat_level": 9,
+      "name": "Удалённый доступ (RAT)",
+      "mechanism": "Предоставляет злоумышленнику полный контроль над вашей системой",
+      "mitigation": "Нейтрализовать функции удаленного доступа"
+    },
+    "backdoor": {
+      "patterns": [
+        "shell_exec", "Backdoor", "BindShell", "ReverseTCP",
+        "ProcessHollow", "ReflectiveDLL", "Metasploit", "CobaltStrike",
+        "Shellcode", "Meterpreter", "PrivEscalation", "CredDump"
+      ],
+      "extensions": [".exe", ".dll", ".bin", ".vbs", ".ps1"],
+      "threat_level": 10,
+      "name": "Бэкдор",
+      "mechanism": "Создает скрытый доступ для злоумышленников в обход систем безопасности",
+      "mitigation": "Закрыть бэкдорные функции"
+    },
+    "spyware": {
+      "patterns": [
+        "ScreenCapture", "AudioRecord", "KeyPressMonitor",
+        "ClipboardLogger", "FileMonitor", "NetworkSniffer"
+      ],
+      "extensions": [".exe", ".dll", ".sys", ".bin"],
+      "threat_level": 7,
+      "name": "Шпионское ПО",
+      "mechanism": "Тайно отслеживает ваши действия и собирает данные",
+      "mitigation": "Отключить функции слежения"
+    },
+    "rootkit": {
+      "patterns": [
+        "KernelMode", "DriverLoad", "SSDTHook", "IDTHook",
+        "DKOM", "ProcessHiding", "FileHiding", "RegistryHiding"
+      ],
+      "extensions": [".sys", ".dll", ".exe", ".bin"],
+      "threat_level": 10,
+      "name": "Руткит",
+      "mechanism": "Скрывает вредоносную активность и получает привилегии администратора",
+      "mitigation": "Нейтрализовать руткит-функции"
+    },
+    "lime_rat": {
+      "patterns": [
+        "LimeRAT", "PlasmaDNS", "AsyncRAT", "NjRat", "QuasarRAT",
+        "DiscordTokenGrabber", "Keylogger", "ScreenSpy", "WebcamCapture",
+        "185\\.159\\.82\\.104", "185\\.231\\.154\\.78", ":5577", ":4488",
+        "PersistanceModule", "StartupPersistence", "VictimIdentifier",
+        "KernelModeRootkit", "ProcessInjection", "CredentialDump",
+        "AutoUpdateFromTor", "UEFI_Persistence", "SPI_Flash",
+        "DiscordWebhook", "TelegramAPI", "StealCryptoWallets",
+        "KillAV", "DisableFirewall", "BypassUAC",
+        "LimeRAT_v0\\.1\\.9\\.2",
+        "Client\\.Settings",
+        "Server\\.Host",
+        "Plasma\\s?DNS",
+        "LimeLogger",
+        "LimeBuilder",
+        "Socket\\.Receive",
+        "Socket\\.Send",
+        "AES_Encrypt",
+        "AES_Decrypt",
+        "Install\\s+for\\s+Persistence",
+        "Anti\\s+Analysis",
+        "Disable\\s+Windows\\s+Defender",
+        "Hidden\\s+Desktop",
+        "Remote\\s+Shell",
+        "C2\\s+Reconnect",
+        "BTC_Address",
+        "XMR_Wallet",
+        "Mine\\s+Monero"
+      ],
+      "extensions": [
+        ".exe", ".dll", ".jar", ".vbs", ".ps1", ".bin", ".sys",
+        ".jpg", ".png", ".txt", ".tmp", ".log", ".dat", ".cfg",
+        ".scr", ".cpl", ".msi", ".com"
+      ],
+      "threat_level": 10,
+      "name": "LimeRAT",
+      "mechanism": "Удалённый доступ с функциями кражи данных, майнинга и разрушения системы",
+      "mitigation": "Полная нейтрализация бэкдорных функций"
+    },
+    "all_rats": {
+      "patterns": [
+        "RemoteShell", "BackConnect", "C2_Server", "ReverseShell",
+        "PortListener", "PayloadInject", "VictimID", "AutoUpdate",
+        "HiddenConnection", "EncryptedComm", "CommandControl",
+        "BotCommand", "TaskScheduler", "RemoteControl",
+        "Keylogger", "ScreenCapture", "WebcamCapture",
+        "FileStealer", "CredentialHarvester", "PersistenceModule",
+        "ProcessInjection", "BypassUAC", "DisableFirewall",
+        "KillAV", "DiscordToken", "CryptoWallet",
+        "StartupRegistry", "ScheduledTask", "ServiceInstaller",
+        "ReflectiveDLL", "ProcessHollowing", "Metasploit",
+        "CobaltStrike", "DNS_Tunneling", "TorConnection"
+      ],
+      "extensions": [".exe", ".dll", ".jar", ".docm", ".xlsm", ".pptm", ".js", ".vbs", ".ps1"],
+      "threat_level": 10,
+      "name": "Универсальный RAT",
+      "mechanism": "Предоставляет злоумышленнику полный контроль над системой",
+      "mitigation": "Нейтрализация всех RAT-функций"
+    }
+  },
+  "SYSTEM_WHITELIST": {
+    "C:\\Windows\\System32": [
+      "kernel32.dll", "user32.dll", "gdi32.dll", "ntdll.dll",
+      "advapi32.dll", "msvcrt.dll", "shell32.dll", "shlwapi.dll",
+      "comctl32.dll", "ws2_32.dll", "ole32.dll", "rpcrt4.dll",
+      "wininet.dll", "crypt32.dll", "secur32.dll", "oleaut32.dll",
+      "imm32.dll", "msctf.dll", "dwmapi.dll", "uxtheme.dll",
+      "svchost.exe", "csrss.exe", "wininit.exe", "services.exe",
+      "lsass.exe", "winlogon.exe", "explorer.exe", "dwm.exe",
+      "taskhostw.exe", "ctfmon.exe", "conhost.exe", "sihost.exe",
+      "AggregatorHost.exe", "AggregatorHost.dll", "RuntimeBroker.exe",
+      "smss.exe", "spoolsv.exe", "dllhost.exe", "backgroundTaskHost.exe",
+      "srms.dat"
+    ],
+    "C:\\Windows\\SysWOW64": [
+      "kernel32.dll", "user32.dll", "gdi32.dll", "ntdll.dll",
+      "advapi32.dll", "msvcrt.dll", "shell32.dll", "shlwapi.dll",
+      "comctl32.dll", "ws2_32.dll", "ole32.dll", "rpcrt4.dll",
+      "wininet.dll", "crypt32.dll", "secur32.dll", "oleaut32.dll",
+      "svchost.exe", "dllhost.exe", "rundll32.exe", "notepad.exe",
+      "calc.exe", "mspaint.exe", "cmd.exe", "powershell.exe",
+      "regedit.exe", "taskmgr.exe", "control.exe", "explorer.exe"
+    ],
+    "C:\\Windows": [
+      "explorer.exe", "winlogon.exe", "csrss.exe", "smss.exe"
+    ]
+  },
+  "CHAT_PATTERNS": [
+    "chat\\.integration", "telegram\\.api", "discord\\.webhook",
+    "slack\\.hook", "irc\\.protocol", "xmpp\\.client",
+    "chat\\.module", "messenger\\.api", "webhook\\.url",
+    "notification\\.channel", "bot\\.token", "api\\.telegram\\.org",
+    "discordapp\\.com", "hooks\\.slack\\.com", "chat\\.transport"
+  ],
+  "ARCHIVE_PASSWORDS": ["infected", "malware", "virus", "rat", "lime", "password", "12345", "qwerty"]
+}

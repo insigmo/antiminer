@@ -36,6 +36,10 @@ class Analyzer:
             )
             
             if threat_info:
+                if threat_info["name"].endswith("antiminer_backup"):
+                    continue
+
+                threat_info["name"] = threat_info["name"][:-4]
                 file_name = os.path.basename(target)
                 path = os.path.dirname(target)
                 issue = Issue(
