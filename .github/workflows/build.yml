@@ -54,6 +54,7 @@ jobs:
             --follow-imports \
             --include-data-file=antiminer/threat_db.json=antiminer/threat_db.json \
             --include-package-data=flet \
+            --static-libpython=yes \
             --output-filename=${{ matrix.executable_name }} \
             antiminer/main.py
 
