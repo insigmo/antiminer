@@ -1,0 +1,16 @@
+[project]
+name = "antiminer"
+version = "0.1.0"
+description = "AntiMiner"
+authors = [{ name = "Betal Berbekov" }]
+dependencies = [
+    "flet>=0.81.0.dev7223",
+    "flet-desktop==0.81.0.dev7241",
+]
+requires-python = ">=3.10"
+
+[project.scripts]
+antiminer = "antiminer.main:main"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
