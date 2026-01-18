@@ -1,10 +1,11 @@
 import pytest
-import asyncio
-from antiminer.logic.models import AppState
-from antiminer.services.scheduler import Scheduler
+
+from antiminer.constants import IssueStatus
 from antiminer.logic.analyzer import Analyzer
 from antiminer.logic.fixer import Fixer
-from antiminer.constants import IssueStatus
+from antiminer.logic.models import AppState
+from antiminer.services.scheduler import Scheduler
+
 
 @pytest.mark.asyncio
 async def test_full_flow():
@@ -19,8 +20,8 @@ async def test_full_flow():
     fixer = Fixer(scheduler, update_state)
     
     # 1. Run Analysis
-    targets = ["test1.exe", "test2.exe"]
-    await analyzer.run_analysis(targets)
+    targets = ["/path/to/test1.exe", "/path/to/test2.exe"]
+    await analyzer.run_analysis(targets, mode="Full Scan")
     
     assert state.processed_count == 2
     assert len(state.issues) > 0

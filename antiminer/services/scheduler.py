@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from typing import Callable, Any
+
 from antiminer.constants import TaskType
 from antiminer.services.executors import ExecutorManager
 

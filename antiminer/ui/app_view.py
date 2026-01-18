@@ -1,6 +1,9 @@
-import flet as ft
 import asyncio
 from typing import Callable
+
+import flet as ft
+import psutil
+
 from antiminer.logic.analyzer import Analyzer
 from antiminer.logic.fixer import Fixer
 from antiminer.logic.models import AppState
@@ -8,6 +11,7 @@ from antiminer.services.scheduler import Scheduler
 from antiminer.ui.analysis_controls import AnalysisControls
 from antiminer.ui.issue_list import IssueList
 from antiminer.ui.progress_view import ProgressView
+
 
 async def main_view(page: ft.Page):
     page.title = "AntiMiner"
@@ -31,12 +35,20 @@ async def main_view(page: ft.Page):
     analyzer = Analyzer(scheduler, update_state)
     fixer = Fixer(scheduler, update_state)
     
-    async def on_analyze(e):
-        targets = [f"file_{i}.exe" for i in range(10)]
-        # Scheduler изолирует исполнение от UI
-        asyncio.create_task(analyzer.run_analysis(targets))
+    async def on_analyze(_, mode: str = "Full Scan"):
+        import os
+        targets = []
+        mounts = [p.mountpoint for p in psutil.disk_partitions()]
+        for mount in mounts:
+            for root, _, files in os.walk(mount):
+                for file in files:
+                    targets.append(os.path.join(root, file))
+        
+        if targets:
+            # Scheduler изолирует исполнение от UI
+            asyncio.create_task(analyzer.run_analysis(targets, mode))
 
-    async def on_fix(e):
+    async def on_fix(_):
         # Scheduler изолирует исполнение от UI
         asyncio.create_task(fixer.fix_issues(state))
 

@@ -1,21 +1,18 @@
-import flet as ft
 import asyncio
-import sys
+
+import flet as ft
+
 from antiminer.services.logger import setup_logger
 from antiminer.ui.app_view import main_view
 
-def main():
+
+async def main_async():
     setup_logger()
-    
-    # 2. Формальная цель: Использовать asyncio + uvloop для IO
-    if sys.platform != "win32":
-        try:
-            import uvloop
-            asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-        except ImportError:
-            pass
-            
-    ft.app(target=main_view)
+    await ft.run_async(main_view)
+
+
+def main():
+    asyncio.run(main_async())
 
 if __name__ == "__main__":
     main()

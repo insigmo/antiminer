@@ -1,11 +1,15 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
+
 from antiminer.constants import IssueStatus
+
 
 @dataclass(frozen=True)
 class Issue:
     id: str
-    title: str
+    file_name: str
+    path: str
+    vulnerability: str
     description: str
     status: IssueStatus
 
@@ -25,7 +29,14 @@ class AppState:
         new_issues = []
         for issue in self.issues:
             if issue.id == issue_id:
-                new_issues.append(Issue(issue.id, issue.title, issue.description, status))
+                new_issues.append(Issue(
+                    issue.id, 
+                    issue.file_name, 
+                    issue.path, 
+                    issue.vulnerability, 
+                    issue.description, 
+                    status
+                ))
             else:
                 new_issues.append(issue)
         

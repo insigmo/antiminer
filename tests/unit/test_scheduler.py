@@ -1,7 +1,10 @@
-import pytest
 import asyncio
-from antiminer.services.scheduler import Scheduler
+
+import pytest
+
 from antiminer.constants import TaskType
+from antiminer.services.scheduler import Scheduler
+
 
 @pytest.mark.asyncio
 async def test_scheduler_io():

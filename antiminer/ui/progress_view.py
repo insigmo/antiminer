@@ -1,5 +1,7 @@
 import flet as ft
+
 from antiminer.logic.models import AppState
+
 
 class ProgressView(ft.Column):
     def __init__(self):
