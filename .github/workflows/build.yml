@@ -1,4 +1,4 @@
-name: Build with Nuitka
+name: Build AntiMiner (Nuitka Direct)
 
 on:
   push:
@@ -28,29 +28,32 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.11'
           cache: 'pip'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flet pefile psutil requests
-          pip install nuitka
+          pip install flet pefile psutil requests nuitka
 
       - name: Install Linux dependencies
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libfuse2 patchelf
+          sudo apt-get install -y libfuse2 patchelf libgtk-3-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Build with Nuitka
+        shell: bash
         run: |
+          # Get Flet package path to include its assets
+          FLET_PATH=$(python -c "import flet; import os; print(os.path.dirname(flet.__file__))")
+          
           python -m nuitka \
             --standalone \
             --onefile \
-            --plugin-enable=flet \
-            --include-data-file=antiminer/threat_db.json=antiminer/threat_db.json \
             --follow-imports \
+            --include-data-file=antiminer/threat_db.json \
+            --include-package-data=flet \
             --output-filename=${{ matrix.executable_name }} \
             antiminer/main.py
 
