@@ -1,23 +1,23 @@
 import asyncio
-from typing import List
-
+from typing import List, Callable
 from antiminer.logic.models import Issue, AppState
-
 from antiminer.constants import TaskType, IssueStatus
 from antiminer.logic.cpu_tasks import analyze_file_content
 from antiminer.services.scheduler import Scheduler
 
-
 class Analyzer:
-    def __init__(self, scheduler: Scheduler, state: AppState):
+    def __init__(self, scheduler: Scheduler, update_state: Callable):
         self.scheduler = scheduler
-        self.state = state
+        self.update_state = update_state
 
     async def run_analysis(self, targets: List[str]):
-        self.state.is_running = True
-        self.state.total_count = len(targets)
-        self.state.processed_count = 0
-        self.state.issues = []
+        self.update_state(lambda s: s.with_update(
+            is_running=True,
+            total_count=len(targets),
+            processed_count=0,
+            issues=[],
+            progress=0.0
+        ))
         
         for i, target in enumerate(targets):
             # Simulate reading file (IO)
@@ -37,9 +37,11 @@ class Analyzer:
                     description=f"Potential malicious pattern detected in {target}",
                     status=IssueStatus.PENDING
                 )
-                self.state.issues.append(issue)
+                self.update_state(lambda s: s.with_update(issues=s.issues + [issue]))
             
-            self.state.processed_count += 1
-            self.state.progress = self.state.processed_count / self.state.total_count
+            self.update_state(lambda s: s.with_update(
+                processed_count=s.processed_count + 1,
+                progress=(s.processed_count + 1) / s.total_count
+            ))
             
-        self.state.is_running = False
+        self.update_state(lambda s: s.with_update(is_running=False))

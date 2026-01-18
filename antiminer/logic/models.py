@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
-
+from typing import List, Optional
 from antiminer.constants import IssueStatus
-
 
 @dataclass(frozen=True)
 class Issue:
@@ -10,26 +9,28 @@ class Issue:
     description: str
     status: IssueStatus
 
-
-@dataclass
+@dataclass(frozen=True)
 class AppState:
-    analysis_mode: str | None = None
-    issues: list[Issue] = field(default_factory=list)
+    analysis_mode: Optional[str] = None
+    issues: List[Issue] = field(default_factory=list)
     progress: float = 0.0
     processed_count: int = 0
     total_count: int = 0
     is_running: bool = False
 
-    def update_issue(self, issue_id: str, status: IssueStatus) -> None:
+    def with_update(self, **kwargs) -> "AppState":
+        return AppState(**{**self.__dict__, **kwargs})
+
+    def with_issue_update(self, issue_id: str, status: IssueStatus) -> "AppState":
         new_issues = []
         for issue in self.issues:
             if issue.id == issue_id:
                 new_issues.append(Issue(issue.id, issue.title, issue.description, status))
             else:
                 new_issues.append(issue)
-
-        # Sort: FAILED issues move to top in the table
-        self.issues = sorted(
+        
+        sorted_issues = sorted(
             new_issues,
             key=lambda x: (0 if x.status == IssueStatus.FAILED else 1)
         )
+        return self.with_update(issues=sorted_issues)
